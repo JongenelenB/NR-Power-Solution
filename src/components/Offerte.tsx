@@ -10,7 +10,7 @@ export default function OfferteModal({ isOpen, onClose }) {
   useEffect(() => {
     if (isOpen) {
       setIsRendered(true);
-      setResult(""); // Reset status bij openen
+      setResult("");
       setTimeout(() => setIsVisible(true), 10);
     } else {
       setIsVisible(false);
@@ -39,7 +39,6 @@ export default function OfferteModal({ isOpen, onClose }) {
       if (data.success) {
         setResult("Formulier succesvol verzonden!");
         event.target.reset();
-        // Sluit de modal automatisch na 2 seconden bij succes
         setTimeout(() => onClose(), 2000);
       } else {
         console.log("Error", data);
@@ -210,7 +209,7 @@ export default function OfferteModal({ isOpen, onClose }) {
                 </div>
               </div>
 
-              <div className="flex-grow space-y-2">
+              <div className="space-y-2">
                 <label className="block text-black font-black uppercase text-sm ml-1">
                   Omschrijving Project *
                 </label>
@@ -219,11 +218,11 @@ export default function OfferteModal({ isOpen, onClose }) {
                   name="message"
                   rows={4}
                   placeholder="Beschrijf kort de gewenste werken..."
-                  className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none resize-none focus:ring-4 focus:ring-black/10 h-[120px] transition-all"
+                  className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none resize-none focus:ring-4 focus:ring-black/10 h-[140px] transition-all"
                 ></textarea>
               </div>
 
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <label className="block text-black font-black uppercase text-sm ml-1">
                   Bijlagen (Foto's/Plannen)
                 </label>
@@ -241,15 +240,15 @@ export default function OfferteModal({ isOpen, onClose }) {
                     </span>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="space-y-3">
+              <div className="space-y-3 mt-4">
                 <button
                   type="submit"
                   disabled={isSubmitting}
                   className={`w-full bg-black text-[#FFD300] font-black uppercase py-5 rounded-2xl 
                              hover:bg-white hover:text-black transition-all duration-300 tracking-[0.2em] shadow-xl flex items-center justify-center gap-2 group
-                             ${isSubmitting ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                             ${isSubmitting ? "opacity-50 cursor-not-allowed" : "cursor-pointer active:scale-95"}`}
                 >
                   {isSubmitting ? "Bezig..." : "Verzenden"}
                   {!isSubmitting && (
