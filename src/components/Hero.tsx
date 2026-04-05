@@ -28,7 +28,7 @@ export default function Hero() {
             {/* CTA Knoppen Rij */}
             <div className="flex flex-wrap items-center gap-8">
               <a
-                href="#diensten"
+                href="#Contact"
                 className="px-8 py-4 bg-[#FFD300] text-black font-bold rounded-full hover:bg-white transition-all duration-300 shadow-lg shadow-[#FFD300]/20 uppercase text-sm tracking-wider"
               >
                 Contacteer ons
