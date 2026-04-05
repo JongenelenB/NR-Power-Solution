@@ -2,35 +2,58 @@ import React, { useState, useEffect } from "react";
 import { Send, X, Upload } from "lucide-react";
 
 export default function OfferteModal({ isOpen, onClose }) {
-  // Twee states om de animatie te beheren
   const [isRendered, setIsRendered] = useState(isOpen);
   const [isVisible, setIsVisible] = useState(false);
+  const [result, setResult] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       setIsRendered(true);
-      // Een kleine vertraging zorgt ervoor dat de DOM is bijgewerkt
-      // voordat we de opacity naar 100 zetten (triggert de animatie)
+      setResult(""); // Reset status bij openen
       setTimeout(() => setIsVisible(true), 10);
     } else {
       setIsVisible(false);
-      // Wacht tot de animatie (300ms) klaar is voordat we het component verwijderen
       setTimeout(() => setIsRendered(false), 300);
     }
   }, [isOpen]);
 
-  // Render niets als het component niet gerenderd hoeft te worden
   if (!isRendered) return null;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Bedankt! Uw aanvraag is verzonden.");
-    onClose();
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setResult("Verzenden....");
+
+    const formData = new FormData(event.target);
+    formData.append("access_key", "4e3c61b2-23b2-48e3-b6d2-bec4c075340f");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setResult("Formulier succesvol verzonden!");
+        event.target.reset();
+        // Sluit de modal automatisch na 2 seconden bij succes
+        setTimeout(() => onClose(), 2000);
+      } else {
+        console.log("Error", data);
+        setResult(data.message || "Er is een fout opgetreden.");
+      }
+    } catch (error) {
+      setResult("Netwerkfout, probeer het later opnieuw.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      {/* Achtergrond Overlay */}
       <div
         className={`absolute inset-0 bg-black/90 backdrop-blur-md transition-opacity duration-300 ease-out ${
           isVisible ? "opacity-100" : "opacity-0"
@@ -38,14 +61,12 @@ export default function OfferteModal({ isOpen, onClose }) {
         onClick={onClose}
       ></div>
 
-      {/* Modal Container met Fade & Scale animatie */}
       <div
         className={`relative w-full max-w-4xl transition-all duration-300 ease-out shadow-2xl ${
           isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
         }`}
       >
         <div className="bg-[#FFD300] rounded-4xl p-6 md:p-10 relative border-4 border-black/5">
-          {/* Sluitknop */}
           <button
             onClick={onClose}
             className="absolute top-6 right-6 text-black hover:scale-110 transition-transform duration-200 z-50 cursor-pointer"
@@ -63,10 +84,9 @@ export default function OfferteModal({ isOpen, onClose }) {
           </div>
 
           <form
-            onSubmit={handleSubmit}
+            onSubmit={onSubmit}
             className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-5"
           >
-            {/* Kolom 1: Contact & Adres */}
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -75,6 +95,7 @@ export default function OfferteModal({ isOpen, onClose }) {
                   </label>
                   <input
                     required
+                    name="name"
                     type="text"
                     placeholder="Uw naam"
                     className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none focus:ring-4 focus:ring-black/10 transition-all"
@@ -86,6 +107,7 @@ export default function OfferteModal({ isOpen, onClose }) {
                   </label>
                   <input
                     required
+                    name="phone"
                     type="tel"
                     placeholder="04..."
                     className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none focus:ring-4 focus:ring-black/10 transition-all"
@@ -99,13 +121,13 @@ export default function OfferteModal({ isOpen, onClose }) {
                 </label>
                 <input
                   required
+                  name="email"
                   type="email"
                   placeholder="naam@voorbeeld.be"
                   className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none focus:ring-4 focus:ring-black/10 transition-all"
                 />
               </div>
 
-              {/* Adres Sectie */}
               <div className="grid grid-cols-4 gap-3 pt-2">
                 <div className="col-span-3 space-y-2">
                   <label className="block text-black font-black uppercase text-sm ml-1">
@@ -113,6 +135,7 @@ export default function OfferteModal({ isOpen, onClose }) {
                   </label>
                   <input
                     required
+                    name="street"
                     type="text"
                     className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none focus:ring-4 focus:ring-black/10 transition-all"
                   />
@@ -123,6 +146,7 @@ export default function OfferteModal({ isOpen, onClose }) {
                   </label>
                   <input
                     required
+                    name="house_number"
                     type="text"
                     className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none focus:ring-4 focus:ring-black/10 transition-all"
                   />
@@ -135,6 +159,7 @@ export default function OfferteModal({ isOpen, onClose }) {
                   </label>
                   <input
                     required
+                    name="zipcode"
                     type="text"
                     className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none focus:ring-4 focus:ring-black/10 transition-all"
                   />
@@ -145,6 +170,7 @@ export default function OfferteModal({ isOpen, onClose }) {
                   </label>
                   <input
                     required
+                    name="city"
                     type="text"
                     className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none focus:ring-4 focus:ring-black/10 transition-all"
                   />
@@ -152,9 +178,7 @@ export default function OfferteModal({ isOpen, onClose }) {
               </div>
             </div>
 
-            {/* Kolom 2: Radio Buttons, Project & Bestanden */}
             <div className="space-y-5 flex flex-col">
-              {/* Moderne Radio Buttons */}
               <div className="space-y-2">
                 <label className="block text-black font-black uppercase text-sm ml-1">
                   Wat wenst u? *
@@ -163,34 +187,23 @@ export default function OfferteModal({ isOpen, onClose }) {
                   <label className="flex-1 cursor-pointer group">
                     <input
                       type="radio"
-                      name="type"
-                      value="prijs"
-                      required
+                      name="request_type"
+                      value="Prijs Offerte"
                       className="hidden peer"
                       defaultChecked
                     />
-                    <div
-                      className="w-full py-4 text-center rounded-2xl font-black uppercase text-xs tracking-widest transition-all
-                                  bg-white/40 text-black border-2 border-transparent
-                                  peer-checked:bg-black peer-checked:text-white peer-checked:scale-[1.02]
-                                  group-hover:bg-white/60"
-                    >
+                    <div className="w-full py-4 text-center rounded-2xl font-black uppercase text-xs tracking-widest transition-all bg-white/40 text-black border-2 border-transparent peer-checked:bg-black peer-checked:text-white peer-checked:scale-[1.02] group-hover:bg-white/60">
                       Prijs Offerte
                     </div>
                   </label>
                   <label className="flex-1 cursor-pointer group">
                     <input
                       type="radio"
-                      name="type"
-                      value="bezoek"
+                      name="request_type"
+                      value="Plaatsbezoek"
                       className="hidden peer"
                     />
-                    <div
-                      className="w-full py-4 text-center rounded-2xl font-black uppercase text-xs tracking-widest transition-all
-                                  bg-white/40 text-black border-2 border-transparent
-                                  peer-checked:bg-black peer-checked:text-white peer-checked:scale-[1.02]
-                                  group-hover:bg-white/60"
-                    >
+                    <div className="w-full py-4 text-center rounded-2xl font-black uppercase text-xs tracking-widest transition-all bg-white/40 text-black border-2 border-transparent peer-checked:bg-black peer-checked:text-white peer-checked:scale-[1.02] group-hover:bg-white/60">
                       Plaatsbezoek
                     </div>
                   </label>
@@ -203,13 +216,12 @@ export default function OfferteModal({ isOpen, onClose }) {
                 </label>
                 <textarea
                   required
+                  name="message"
                   rows={4}
                   placeholder="Beschrijf kort de gewenste werken..."
                   className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none resize-none focus:ring-4 focus:ring-black/10 h-[120px] transition-all"
                 ></textarea>
               </div>
-
-              {/* upload files 
 
               <div className="space-y-2">
                 <label className="block text-black font-black uppercase text-sm ml-1">
@@ -218,6 +230,7 @@ export default function OfferteModal({ isOpen, onClose }) {
                 <div className="relative group">
                   <input
                     type="file"
+                    name="attachment"
                     multiple
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                   />
@@ -229,20 +242,30 @@ export default function OfferteModal({ isOpen, onClose }) {
                   </div>
                 </div>
               </div>
-                */}
 
-              {/* Submit Button */}
-              <button
-                type="submit"
-                className="w-full bg-black text-[#FFD300] font-black uppercase py-5 rounded-2xl 
-                           hover:bg-white hover:text-black transition-all duration-300 tracking-[0.2em] shadow-xl flex items-center justify-center gap-2 group"
-              >
-                Verzenden{" "}
-                <Send
-                  size={20}
-                  className="group-hover:translate-x-1 transition-transform"
-                />
-              </button>
+              <div className="space-y-3">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`w-full bg-black text-[#FFD300] font-black uppercase py-5 rounded-2xl 
+                             hover:bg-white hover:text-black transition-all duration-300 tracking-[0.2em] shadow-xl flex items-center justify-center gap-2 group
+                             ${isSubmitting ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                >
+                  {isSubmitting ? "Bezig..." : "Verzenden"}
+                  {!isSubmitting && (
+                    <Send
+                      size={20}
+                      className="group-hover:translate-x-1 transition-transform"
+                    />
+                  )}
+                </button>
+
+                {result && (
+                  <p className="text-center text-black font-black uppercase text-xs tracking-tighter animate-pulse">
+                    {result}
+                  </p>
+                )}
+              </div>
             </div>
           </form>
         </div>
