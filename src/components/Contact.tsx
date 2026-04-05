@@ -71,7 +71,7 @@ export default function Contact() {
             <ContactDetail
               Icon={Mail}
               title="E-mail"
-              value="info@nrpowersolutions.be"
+              value="Powersolutionsnr@gmail.com"
             />
             <ContactDetail
               Icon={MapPin}
