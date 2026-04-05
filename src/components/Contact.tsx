@@ -1,115 +1,268 @@
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Send, X, Upload } from "lucide-react";
 
-export default function Contact() {
+export default function OfferteModal({ isOpen, onClose }) {
+  const [isRendered, setIsRendered] = useState(isOpen);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsRendered(true);
+      setTimeout(() => setIsVisible(true), 10);
+    } else {
+      setIsVisible(false);
+      setTimeout(() => setIsRendered(false), 300);
+    }
+  }, [isOpen]);
+
+  if (!isRendered) return null;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const formData = new FormData(e.target);
+    formData.append("access_key", "4e3c61b2-23b2-48e3-b6d2-bec4c075340f");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert("Bedankt! Uw aanvraag is succesvol verzonden.");
+        onClose();
+      } else {
+        alert("Er ging iets mis. Probeer het later opnieuw.");
+      }
+    } catch (error) {
+      alert("Netwerkfout. Controleer uw verbinding.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <section className="py-20 px-5">
-      {/* Header */}
-      <div className="flex flex-col items-center mb-16">
-        <span className="text-[#FFD300] text-sm uppercase tracking-[0.3em] font-bold mb-2">
-          Heeft u vragen?
-        </span>
-        <h2 className="relative text-5xl md:text-6xl font-black text-white uppercase text-center">
-          Contacteer Ons
-          <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-24 h-2 bg-[#FFD300] rounded-full shadow-[0_0_15px_#FFD300]"></span>
-        </h2>
-      </div>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      <div
+        className={`absolute inset-0 bg-black/90 backdrop-blur-md transition-opacity duration-300 ease-out ${
+          isVisible ? "opacity-100" : "opacity-0"
+        }`}
+        onClick={onClose}
+      ></div>
 
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
-        {/* Links: Contact Informatie */}
-        <div className="space-y-8">
-          <p className="text-white text-lg max-w-md">
-            Wilt u een offerte aanvragen of heeft u een technisch probleem? Vul
-            het formulier in of neem direct contact met ons op via onderstaande
-            gegevens.
-          </p>
-
-          <div className="space-y-6">
-            <ContactDetail
-              Icon={Phone}
-              title="Telefoon"
-              value="+32 400 00 00 00"
-            />
-            <ContactDetail
-              Icon={Mail}
-              title="E-mail"
-              value="info@elektro-bedrijf.be"
-            />
-            <ContactDetail
-              Icon={MapPin}
-              title="Locatie"
-              value="Antwerpen, België"
-            />
-          </div>
-        </div>
-
-        {/* Rechts: Contact Formulier */}
-        <div className="relative group">
-          <div
-            className="absolute -top-4 -right-4 bg-white rounded-full w-20 h-20 z-10 
-                       flex items-center justify-center shadow-lg border-4 border-[#121212]
-                       transition-all duration-300 group-hover:rotate-12"
+      <div
+        className={`relative w-full max-w-4xl transition-all duration-300 ease-out shadow-2xl ${
+          isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
+        }`}
+      >
+        <div className="bg-[#FFD300] rounded-4xl p-6 md:p-10 relative border-4 border-black/5">
+          <button
+            onClick={onClose}
+            className="absolute top-6 right-6 text-black hover:scale-110 transition-transform duration-200 z-50 cursor-pointer"
           >
-            <Send color="black" size={32} />
+            <X size={36} strokeWidth={3} />
+          </button>
+
+          <div className="mb-8">
+            <h2 className="text-black text-4xl font-black uppercase tracking-tighter leading-none">
+              Offerte Aanvragen
+            </h2>
+            <p className="text-black font-bold mt-2 uppercase tracking-tight opacity-80">
+              Snel en vrijblijvend een voorstel op maat
+            </p>
           </div>
 
-          <div className="bg-[#FFD300] p-8 md:p-10 rounded-4xl shadow-lg shadow-[#FFD300]/20">
-            <form className="space-y-4">
-              <div>
-                <label className="block text-black font-bold uppercase text-sm mb-1 ml-1">
-                  Naam
-                </label>
-                <input
-                  type="text"
-                  placeholder="Uw volledige naam"
-                  className="w-full p-4 rounded-2xl border-none bg-white text-black placeholder-gray-500 focus:ring-4 focus:ring-black/10 outline-none"
-                />
+          <form
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-5"
+          >
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="block text-black font-black uppercase text-sm ml-1">
+                    Naam *
+                  </label>
+                  <input
+                    required
+                    name="name"
+                    type="text"
+                    placeholder="Uw naam"
+                    className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none focus:ring-4 focus:ring-black/10 transition-all"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-black font-black uppercase text-sm ml-1">
+                    Telefoon *
+                  </label>
+                  <input
+                    required
+                    name="phone"
+                    type="tel"
+                    placeholder="04..."
+                    className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none focus:ring-4 focus:ring-black/10 transition-all"
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-black font-bold uppercase text-sm mb-1 ml-1">
-                  E-mail
+
+              <div className="space-y-2">
+                <label className="block text-black font-black uppercase text-sm ml-1">
+                  E-mailadres *
                 </label>
                 <input
+                  required
+                  name="email"
                   type="email"
-                  placeholder="uw@email.com"
-                  className="w-full p-4 rounded-2xl border-none bg-white text-black placeholder-gray-500 focus:ring-4 focus:ring-black/10 outline-none"
+                  placeholder="naam@voorbeeld.be"
+                  className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none focus:ring-4 focus:ring-black/10 transition-all"
                 />
               </div>
-              <div>
-                <label className="block text-black font-bold uppercase text-sm mb-1 ml-1">
-                  Bericht
+
+              <div className="grid grid-cols-4 gap-3 pt-2">
+                <div className="col-span-3 space-y-2">
+                  <label className="block text-black font-black uppercase text-sm ml-1">
+                    Straat *
+                  </label>
+                  <input
+                    required
+                    name="street"
+                    type="text"
+                    className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none focus:ring-4 focus:ring-black/10 transition-all"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-black font-black uppercase text-sm ml-1">
+                    Nr *
+                  </label>
+                  <input
+                    required
+                    name="number"
+                    type="text"
+                    className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none focus:ring-4 focus:ring-black/10 transition-all"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="block text-black font-black uppercase text-sm ml-1">
+                    Postcode *
+                  </label>
+                  <input
+                    required
+                    name="zipcode"
+                    type="text"
+                    className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none focus:ring-4 focus:ring-black/10 transition-all"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-black font-black uppercase text-sm ml-1">
+                    Stad *
+                  </label>
+                  <input
+                    required
+                    name="city"
+                    type="text"
+                    className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none focus:ring-4 focus:ring-black/10 transition-all"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-5 flex flex-col">
+              <div className="space-y-2">
+                <label className="block text-black font-black uppercase text-sm ml-1">
+                  Wat wenst u? *
+                </label>
+                <div className="flex gap-3">
+                  <label className="flex-1 cursor-pointer group">
+                    <input
+                      type="radio"
+                      name="request_type"
+                      value="prijs_offerte"
+                      required
+                      className="hidden peer"
+                      defaultChecked
+                    />
+                    <div
+                      className="w-full py-4 text-center rounded-2xl font-black uppercase text-xs tracking-widest transition-all
+                                  bg-white/40 text-black border-2 border-transparent
+                                  peer-checked:bg-black peer-checked:text-white peer-checked:scale-[1.02]
+                                  group-hover:bg-white/60"
+                    >
+                      Prijs Offerte
+                    </div>
+                  </label>
+                  <label className="flex-1 cursor-pointer group">
+                    <input
+                      type="radio"
+                      name="request_type"
+                      value="plaatsbezoek"
+                      className="hidden peer"
+                    />
+                    <div
+                      className="w-full py-4 text-center rounded-2xl font-black uppercase text-xs tracking-widest transition-all
+                                  bg-white/40 text-black border-2 border-transparent
+                                  peer-checked:bg-black peer-checked:text-white peer-checked:scale-[1.02]
+                                  group-hover:bg-white/60"
+                    >
+                      Plaatsbezoek
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div className="flex-grow space-y-2">
+                <label className="block text-black font-black uppercase text-sm ml-1">
+                  Omschrijving Project *
                 </label>
                 <textarea
+                  required
+                  name="message"
                   rows={4}
-                  placeholder="Hoe kunnen we u helpen?"
-                  className="w-full p-4 rounded-2xl border-none bg-white text-black placeholder-gray-500 focus:ring-4 focus:ring-black/10 outline-none resize-none"
+                  placeholder="Beschrijf kort de gewenste werken..."
+                  className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none resize-none focus:ring-4 focus:ring-black/10 h-[120px] transition-all"
                 ></textarea>
               </div>
+
+              <div className="space-y-2">
+                <label className="block text-black font-black uppercase text-sm ml-1">
+                  Bijlagen (Foto's/Plannen)
+                </label>
+                <div className="relative group">
+                  <input
+                    type="file"
+                    name="attachment"
+                    multiple
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                  />
+                  <div className="w-full p-4 border-2 border-dashed border-black/30 rounded-2xl bg-white/30 flex items-center justify-center gap-3 group-hover:bg-white/50 transition-colors">
+                    <Upload size={20} className="text-black" />
+                    <span className="font-black text-black text-xs uppercase tracking-tighter">
+                      Bestanden uploaden
+                    </span>
+                  </div>
+                </div>
+              </div>
+
               <button
                 type="submit"
-                className="w-full bg-black text-white font-black uppercase py-4 rounded-2xl 
-                           hover:bg-white hover:text-black transition-colors duration-300 tracking-widest mt-4"
+                disabled={isSubmitting}
+                className={`w-full bg-black text-[#FFD300] font-black uppercase py-5 rounded-2xl 
+                           hover:bg-white hover:text-black transition-all duration-300 tracking-[0.2em] shadow-xl flex items-center justify-center gap-2 group ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
               >
-                Verstuur Bericht
+                {isSubmitting ? "Verzenden..." : "Verzenden"}
+                <Send
+                  size={20}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
               </button>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
-      </div>
-    </section>
-  );
-}
-
-function ContactDetail({ Icon, title, value }) {
-  return (
-    <div className="flex items-center gap-5">
-      <div className="bg-[#FFD300] p-4 rounded-2xl">
-        <Icon size={24} className="text-black" />
-      </div>
-      <div>
-        <h4 className="text-gray-400 uppercase text-xs font-bold tracking-widest">
-          {title}
-        </h4>
-        <p className="text-white text-xl font-bold">{value}</p>
       </div>
     </div>
   );
