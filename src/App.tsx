@@ -4,6 +4,7 @@ import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 import Contact from "./components/Contact";
 import AboutMe from "./components/AboutMe";
+import Footer from "./components/Footer";
 
 function App() {
   const sections = [
@@ -11,6 +12,7 @@ function App() {
     { id: "Diensten", component: <Diensten /> },
     { id: "About Me", component: <AboutMe /> },
     { id: "Contact", component: <Contact /> },
+    { id: "Footer", component: <Footer /> },
   ];
 
   return (

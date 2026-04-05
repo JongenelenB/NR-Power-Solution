@@ -62,15 +62,6 @@ export default function AboutMe() {
                 </div>
               ))}
             </div>
-
-            <div className="mt-8">
-              <a
-                href="#onze-aanpak"
-                className="inline-block border-2 border-white/20 text-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-black transition-all duration-300 uppercase text-xs tracking-widest"
-              >
-                Ontdek onze aanpak
-              </a>
-            </div>
           </div>
         </div>
       </div>
