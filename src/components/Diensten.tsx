@@ -1,5 +1,5 @@
 import DienstenCards from "./DienstenCard";
-import { Lightbulb, Zap, Smartphone, Sun, Factory } from "lucide-react";
+import { Lightbulb, Zap, Smartphone, Sun, Factory, Network } from "lucide-react";
 
 const serivces = [
   {
@@ -11,29 +11,29 @@ const serivces = [
       "Van het plaatsen van nieuwe verlichting tot het volledig vernieuwen van uw zekeringkast. Wij zorgen voor een veilige en moderne elektrische installatie in uw woning.",
   },
   {
-    id: "laadpalen",
+    id: "laadpalen", // gecertificieerd bij zetten
     title: "Laadpalen",
     imgUrl: "/images/Laadpaal.png",
     icon: Zap,
     description:
       "Klaar voor elektrisch rijden? Wij installeren zowel wandmodellen als staande laadstations bij u thuis of op de zaak, volledig gekeurd en gebruiksklaar.",
   },
-  {
-    id: "domotica",
-    title: "Domotica",
-    imgUrl: "/images/Domotica.png",
-    icon: Smartphone,
-    description:
-      "Maak uw woning slim met onze domotica-oplossingen. Bedien verlichting, verwarming en beveiliging eenvoudig via één centraal smart panel of uw smartphone.",
-  },
-  {
-    id: "zonnepanelen",
-    title: "Zonnepanelen",
-    imgUrl: "/images/zonnenpaneel.png",
-    icon: Sun,
-    description:
-      "Verlaag uw energiefactuur en investeer in de toekomst. Wij plaatsen hoogrendementspanelen die perfect zijn afgestemd op uw dak en energieverbruik.",
-  },
+  // {
+  //   id: "domotica",
+  //   title: "Domotica",
+  //   imgUrl: "/images/Domotica.png",
+  //   icon: Smartphone,
+  //   description:
+  //     "Maak uw woning slim met onze domotica-oplossingen. Bedien verlichting, verwarming en beveiliging eenvoudig via één centraal smart panel of uw smartphone.",
+  // },
+  // {
+  //   id: "zonnepanelen",
+  //   title: "Zonnepanelen",
+  //   imgUrl: "/images/zonnenpaneel.png",
+  //   icon: Sun,
+  //   description:
+  //     "Verlaag uw energiefactuur en investeer in de toekomst. Wij plaatsen hoogrendementspanelen die perfect zijn afgestemd op uw dak en energieverbruik.",
+  // },
   {
     id: "Industrieel",
     title: "Industrieel",
@@ -41,6 +41,15 @@ const serivces = [
     icon: Factory,
     description:
       "Specialist in complexe installaties, bordenbouw en onderhoud voor KMO's en industrie. Wij garanderen bedrijfscontinuïteit met veilige en krachtige stroomoplossingen op maat.",
+  },
+
+  {
+    id: "Data",
+    title: "Data bekabeling",
+    imgUrl: "/images/Datakabel.png", // change
+    icon: Network, //change
+    description:
+      "Hoogwaardige Databekabeling & Netwerkbeheer. Een toekomstbestendige installatie valt of staat bij de kwaliteit van de bekabeling. Wij zijn gespecialiseerd in het aanleggen van gecertificeerde koper- en glasvezelnetwerken (Cat6a, Cat7, Fiber) die voldoen aan de strengste industriële normen. Door precisie in montage en grondige testing minimaliseren we latency en maximaliseren we de uptime van uw netwerk",
   },
 ];
 

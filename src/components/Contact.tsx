@@ -76,7 +76,7 @@ export default function Contact() {
             <ContactDetail
               Icon={MapPin}
               title="Locatie"
-              value="Antwerpen, België"
+              value="Brecht, België"
             />
           </div>
         </div>
