@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import logoImg from "/images/NR Power Solutions.png";
 import OfferteModal from "./Offerte";
 

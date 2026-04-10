@@ -1,4 +1,3 @@
-import React from "react";
 import aboutImg from "/images/Banner.png"; // De gegenereerde banner
 import { CheckCircle2 } from "lucide-react";
 
@@ -39,11 +38,19 @@ export default function AboutMe() {
           {/* Rechterkant: Tekst & USP's */}
           <div className="flex flex-col gap-6">
             <p className="text-gray-400 text-lg leading-relaxed">
-              Bij <strong>NR Power Solutions</strong> bouwen we aan de
-              infrastructuur van morgen. Wat ooit begon als een passie voor
-              elektrotechniek, is uitgegroeid tot een referentie in de regio
-              voor zowel particuliere woningbouw als complexe industriële
-              projecten.
+              Met meer dan tien jaar ervaring in de elektrotechniek is{" "}
+              <strong>NR Power Solutions</strong> uw partner voor vakmanschap en
+              innovatie. Mijn reis begon in 2014 als huishoudelijk elektricien,
+              waarna ik mij in 2015 specialiseerde in industriële installaties.
+              Deze combinatie van fijngevoelige woningbouw en complexe
+              industriële projecten vormt de kern van mijn expertise. Door de
+              jaren heen heb ik een diepgaande specialisatie opgebouwd in
+              databekabeling en ben ik gecertificeerd installateur van
+              laadpalen. Bij NR Power Solutions bouwen we aan de infrastructuur
+              van morgen: van een feilloze dataverbinding tot de installatie van
+              uw duurzame laadoplossing. Onze missie is simpel: veilige,
+              innovatieve en energiezuinige oplossingen bieden die generaties
+              lang meegaan.
             </p>
 
             <p className="text-gray-400 text-lg leading-relaxed">

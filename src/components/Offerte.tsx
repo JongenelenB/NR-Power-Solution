@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Send, X, Upload } from "lucide-react";
+import { Send, X } from "lucide-react";
 
-export default function OfferteModal({ isOpen, onClose }) {
+interface OfferteModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function OfferteModal({ isOpen, onClose }: OfferteModalProps) {
   const [isRendered, setIsRendered] = useState(isOpen);
   const [isVisible, setIsVisible] = useState(false);
   const [result, setResult] = useState("");
@@ -20,12 +25,14 @@ export default function OfferteModal({ isOpen, onClose }) {
 
   if (!isRendered) return null;
 
-  const onSubmit = async (event) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
     setResult("Verzenden....");
 
-    const formData = new FormData(event.target);
+    // FIX: Gebruik currentTarget om het formulier element vast te pakken
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     formData.append("access_key", "4e3c61b2-23b2-48e3-b6d2-bec4c075340f");
 
     try {
@@ -38,7 +45,10 @@ export default function OfferteModal({ isOpen, onClose }) {
 
       if (data.success) {
         setResult("Formulier succesvol verzonden!");
-        event.target.reset();
+
+        // FIX: Gebruik de form variabele voor de reset
+        form.reset();
+
         setTimeout(() => onClose(), 2000);
       } else {
         console.log("Error", data);
@@ -222,33 +232,13 @@ export default function OfferteModal({ isOpen, onClose }) {
                 ></textarea>
               </div>
 
-              {/* <div className="space-y-2">
-                <label className="block text-black font-black uppercase text-sm ml-1">
-                  Bijlagen (Foto's/Plannen)
-                </label>
-                <div className="relative group">
-                  <input
-                    type="file"
-                    name="attachment"
-                    multiple
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                  />
-                  <div className="w-full p-4 border-2 border-dashed border-black/30 rounded-2xl bg-white/30 flex items-center justify-center gap-3 group-hover:bg-white/50 transition-colors">
-                    <Upload size={20} className="text-black" />
-                    <span className="font-black text-black text-xs uppercase tracking-tighter">
-                      Bestanden uploaden
-                    </span>
-                  </div>
-                </div>
-              </div> */}
-
               <div className="space-y-3 mt-4">
                 <button
                   type="submit"
                   disabled={isSubmitting}
                   className={`w-full bg-black text-[#FFD300] font-black uppercase py-5 rounded-2xl 
-                             hover:bg-white hover:text-black transition-all duration-300 tracking-[0.2em] shadow-xl flex items-center justify-center gap-2 group
-                             ${isSubmitting ? "opacity-50 cursor-not-allowed" : "cursor-pointer active:scale-95"}`}
+                              hover:bg-white hover:text-black transition-all duration-300 tracking-[0.2em] shadow-xl flex items-center justify-center gap-2 group
+                              ${isSubmitting ? "opacity-50 cursor-not-allowed" : "cursor-pointer active:scale-95"}`}
                 >
                   {isSubmitting ? "Bezig..." : "Verzenden"}
                   {!isSubmitting && (

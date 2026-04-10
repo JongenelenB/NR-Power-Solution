@@ -1,54 +1,44 @@
-import React from "react";
 import { Zap } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-[#121212] py-10 border-t border-white/5">
-      <div className="max-w-4xl mx-auto px-6 flex flex-col items-center gap-6 text-center">
-
-        {/* Leuke tekst met een elektrisch icoontje */}
-        <p className="text-gray-400 text-sm md:text-base flex items-center justify-center gap-2">
-          Gemaakt met volop energie{" "}
-          <Zap
-            size={16}
-            className="text-[#FFD300] fill-[#FFD300] animate-pulse"
-          />{" "}
-          en vakmanschap.
-        </p>
-
-        {/* Partners Sectie */}
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] text-gray-600 uppercase tracking-[0.2em]">Onze Partners</span>
-          <div className="flex items-center gap-6 text-gray-400 font-semibold text-sm">
-            <span className="hover:text-white transition-colors duration-300 cursor-default">SNIGG</span>
-            <div className="h-4 w-[1px] bg-white/10"></div>
-            <span className="hover:text-white transition-colors duration-300 cursor-default">ENERCO</span>
-          </div>
-        </div>
-
-        {/* Copyright en bedrijfsnaam */}
-        <div className="flex flex-col gap-2 items-center">
-          <div className="text-gray-500 text-xs md:text-sm font-medium tracking-widest uppercase">
-            &copy; {currentYear}{" "}
-            <span className="text-white font-black ml-1">NR Power Solutions</span>
-            <span className="mx-2 opacity-50">|</span>
-            Alle rechten voorbehouden.
+    <footer className="w-full bg-[#121212] py-6 border-t border-white/5">
+      <div className="max-w-6xl mx-auto px-6">
+        {/* Eén compacte rij op desktop */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+          {/* Links: Logo & BTW */}
+          <div className="flex flex-col">
+            <span className="text-white font-black tracking-widest uppercase text-sm">
+              NR Power Solutions
+            </span>
+            <span className="text-gray-600 text-[9px] tracking-widest uppercase">
+              BTW BE1011.866.584
+            </span>
           </div>
 
-          {/* BTW Nummer */}
-          <div className="text-gray-600 text-[10px] tracking-widest uppercase">
-            BE1011.866.584 {/* Pas dit nummer aan indien nodig */}
+          {/* Midden: Compacte slogan */}
+          <div className="flex items-center gap-2 text-gray-500 text-xs py-2 md:py-0 border-y border-white/5 md:border-none w-full md:w-auto justify-center">
+            Gemaakt met
+            <Zap
+              size={14}
+              className="text-[#FFD300] fill-[#FFD300] animate-pulse"
+            />
+            door Bjorn Jongenelen
           </div>
-        </div>
 
-        {/* Developer Credits */}
-        <div className="text-gray-600 text-[11px] tracking-wider mt-2">
-          Website ontwikkeld door{" "}
-          <span className="text-gray-400 font-bold hover:text-[#FFD300] transition-colors duration-300 cursor-default">
-            Bjorn Jongenelen
-          </span>
+          {/* Rechts: Partners & Copyright gecombineerd */}
+          <div className="flex flex-col items-center md:items-end gap-1">
+            <div className="flex items-center gap-3 text-gray-400 font-bold text-[10px] uppercase tracking-tighter">
+              <span className="hover:text-white transition-colors">SNIGG</span>
+              <span className="text-white/10 text-xs">|</span>
+              <span className="hover:text-white transition-colors">ENERCO</span>
+            </div>
+            <p className="text-gray-600 text-[10px] tracking-wide">
+              &copy; {currentYear} — Alle rechten voorbehouden
+            </p>
+          </div>
         </div>
       </div>
     </footer>

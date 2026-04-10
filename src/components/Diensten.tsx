@@ -1,5 +1,12 @@
 import DienstenCards from "./DienstenCard";
-import { Lightbulb, Zap, Smartphone, Sun, Factory, Network } from "lucide-react";
+import {
+  Lightbulb,
+  Zap,
+  // Smartphone,
+  //  Sun,
+  Factory,
+  Network,
+} from "lucide-react";
 
 const serivces = [
   {
@@ -16,7 +23,7 @@ const serivces = [
     imgUrl: "/images/Laadpaal.png",
     icon: Zap,
     description:
-      "Klaar voor elektrisch rijden? Wij installeren zowel wandmodellen als staande laadstations bij u thuis of op de zaak, volledig gekeurd en gebruiksklaar.",
+      "Klaar voor elektrisch rijden? Als gecertificeerd installateur plaatsen wij zowel wandmodellen als staande laadstations bij u thuis of op de zaak, volledig gekeurd en gebruiksklaar.",
   },
   // {
   //   id: "domotica",
@@ -46,10 +53,10 @@ const serivces = [
   {
     id: "Data",
     title: "Data bekabeling",
-    imgUrl: "/images/Datakabel.png", // change
-    icon: Network, //change
+    imgUrl: "/images/Datakabel.png",
+    icon: Network,
     description:
-      "Hoogwaardige Databekabeling & Netwerkbeheer. Een toekomstbestendige installatie valt of staat bij de kwaliteit van de bekabeling. Wij zijn gespecialiseerd in het aanleggen van gecertificeerde koper- en glasvezelnetwerken (Cat6a, Cat7, Fiber) die voldoen aan de strengste industriële normen. Door precisie in montage en grondige testing minimaliseren we latency en maximaliseren we de uptime van uw netwerk",
+      "Specialist in Databekabeling & Netwerkbeheer. Wij leggen gecertificeerde koper- en glasvezelnetwerken aan (Cat6a, Cat7, Fiber) volgens de hoogste normen. Altijd grondig getest voor minimale latency en maximale uptime van uw netwerk.",
   },
 ];
 

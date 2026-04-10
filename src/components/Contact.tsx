@@ -1,18 +1,23 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
+
+interface ContactDetailProps {
+  Icon: React.ElementType;
+  title: string;
+  value: string;
+}
 
 export default function Contact() {
   const [result, setResult] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = async (event) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
     setResult("Verzenden....");
 
-    // Haalt automatisch alle data uit de formulier-velden (dankzij de 'name' attributen)
-    const formData = new FormData(event.target);
-    // Jouw Web3Forms Access Key
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     formData.append("access_key", "4e3c61b2-23b2-48e3-b6d2-bec4c075340f");
 
     try {
@@ -25,9 +30,8 @@ export default function Contact() {
 
       if (data.success) {
         setResult("Bericht succesvol verzonden!");
-        event.target.reset(); // Maakt de velden weer leeg
+        form.reset();
 
-        // Verberg succesbericht na 5 seconden
         setTimeout(() => setResult(""), 5000);
       } else {
         console.log("Error", data);
@@ -42,7 +46,6 @@ export default function Contact() {
 
   return (
     <section id="Contact" className="py-20 px-5">
-      {/* Header */}
       <div className="flex flex-col items-center mb-16">
         <span className="text-[#FFD300] text-sm uppercase tracking-[0.3em] font-bold mb-2">
           Heeft u vragen?
@@ -54,7 +57,6 @@ export default function Contact() {
       </div>
 
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
-        {/* Links: Contact Informatie */}
         <div className="space-y-8">
           <p className="text-white text-lg max-w-md">
             Wilt u een offerte aanvragen of heeft u een technisch probleem? Vul
@@ -81,13 +83,8 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* Rechts: Contact Formulier */}
         <div className="relative group">
-          <div
-            className="absolute -top-4 -right-4 bg-white rounded-full w-20 h-20 z-10 
-                       flex items-center justify-center shadow-lg border-4 border-[#121212]
-                       transition-all duration-300 group-hover:rotate-12"
-          >
+          <div className="absolute -top-4 -right-4 bg-white rounded-full w-20 h-20 z-10 flex items-center justify-center shadow-lg border-4 border-[#121212] transition-all duration-300 group-hover:rotate-12">
             <Send color="black" size={32} />
           </div>
 
@@ -99,7 +96,7 @@ export default function Contact() {
                 </label>
                 <input
                   type="text"
-                  name="name" // Belangrijk voor FormData
+                  name="name"
                   required
                   placeholder="Uw volledige naam"
                   className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none focus:ring-4 focus:ring-black/10 transition-all"
@@ -111,7 +108,7 @@ export default function Contact() {
                 </label>
                 <input
                   type="email"
-                  name="email" // Belangrijk voor FormData
+                  name="email"
                   required
                   placeholder="uw@email.com"
                   className="w-full p-4 rounded-2xl border-none bg-white text-black font-bold outline-none focus:ring-4 focus:ring-black/10 transition-all"
@@ -122,7 +119,7 @@ export default function Contact() {
                   Bericht *
                 </label>
                 <textarea
-                  name="message" // Belangrijk voor FormData
+                  name="message"
                   required
                   rows={4}
                   placeholder="Hoe kunnen we u helpen?"
@@ -130,14 +127,11 @@ export default function Contact() {
                 ></textarea>
               </div>
 
-              {/* Verzendknop & Statusbericht */}
               <div className="space-y-3 mt-4">
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full bg-black text-[#FFD300] font-black uppercase py-5 rounded-2xl 
-                             hover:bg-white hover:text-black transition-all duration-300 tracking-[0.2em] shadow-xl flex items-center justify-center gap-2 group
-                             ${isSubmitting ? "opacity-50 cursor-not-allowed" : "cursor-pointer active:scale-95"}`}
+                  className={`w-full bg-black text-[#FFD300] font-black uppercase py-5 rounded-2xl hover:bg-white hover:text-black transition-all duration-300 tracking-[0.2em] shadow-xl flex items-center justify-center gap-2 group ${isSubmitting ? "opacity-50 cursor-not-allowed" : "cursor-pointer active:scale-95"}`}
                 >
                   {isSubmitting ? "Bezig..." : "Verstuur Bericht"}
                   {!isSubmitting && (
@@ -162,7 +156,7 @@ export default function Contact() {
   );
 }
 
-function ContactDetail({ Icon, title, value }) {
+function ContactDetail({ Icon, title, value }: ContactDetailProps) {
   return (
     <div className="flex items-center gap-5">
       <div className="bg-[#FFD300] p-4 rounded-2xl">
